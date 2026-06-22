@@ -63,10 +63,3 @@ A full-stack marketplace backend built using Spring Boot where customers can dis
 * GET /reviews/service/{id}
 * GET /reviews/service/{id}/rating
 
-## Future Enhancements
-
-* Angular Frontend
-* Provider Dashboard
-* Payment Integration
-* Location-Based Search
-* Notifications
