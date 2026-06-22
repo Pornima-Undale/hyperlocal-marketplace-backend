@@ -1,6 +1,8 @@
 package com.marketplace.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
 public class Booking {
@@ -11,7 +13,8 @@ public class Booking {
 
     private String bookingDate;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -37,11 +40,11 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
-    public String getStatus() {
+    public BookingStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(BookingStatus status) {
         this.status = status;
     }
 

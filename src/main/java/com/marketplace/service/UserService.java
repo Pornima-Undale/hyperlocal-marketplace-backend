@@ -3,6 +3,7 @@ package com.marketplace.service;
 import com.marketplace.dto.UserResponseDto;
 import com.marketplace.entity.User;
 import com.marketplace.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,12 +13,20 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserResponseDto saveUser(User user){
+
+        user.setPassword(
+                passwordEncoder.encode(
+                        user.getPassword()
+                )
+        );
 
         User savedUser = userRepository.save(user);
 
@@ -60,7 +69,11 @@ public class UserService {
 
             existingUser.setName(updatedUser.getName());
             existingUser.setEmail(updatedUser.getEmail());
-            existingUser.setPassword(updatedUser.getPassword());
+            existingUser.setPassword(
+                    passwordEncoder.encode(
+                            updatedUser.getPassword()
+                    )
+            );
             existingUser.setRole(updatedUser.getRole());
 
             return userRepository.save(existingUser);
@@ -76,7 +89,7 @@ public class UserService {
         dto.setId(user.getId());
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());
-        dto.setRole(user.getRole().name());
+        dto.setRole(user.getRole());
 
         return dto;
     }
